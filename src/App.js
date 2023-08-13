@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function App() {
   return (
     <div className="App">
@@ -41,21 +43,44 @@ const questions = [
 ];
 
 function Flashcard() {
+  const [selectedId, setSelectedId] = useState({
+    id: 0,
+    answer: "",
+  });
+
+  function handleClick(data) {
+    const { id, answer } = data;
+    setSelectedId({
+      id,
+      answer,
+    });
+  }
+
   return (
     <div>
       <ul className="flashcards">
         {questions.map((card) => (
-          <Cards cardobj={card} key={card.id} />
+          <Cards
+            selectedId={selectedId}
+            handleClick={handleClick}
+            cardobj={card}
+            key={card.id}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Cards({ cardobj }) {
+function Cards({ cardobj, selectedId, handleClick }) {
   return (
     <li>
-      <span>{cardobj.question}</span>
+      <span
+        onClick={() => handleClick(cardobj)}
+        className={cardobj.id === selectedId.id ? "selected" : ""}
+      >
+        {cardobj.id === selectedId.id ? cardobj.answer : cardobj.question}
+      </span>
     </li>
   );
 }
