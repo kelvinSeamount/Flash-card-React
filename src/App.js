@@ -1,4 +1,4 @@
-import { useState } from "react";
+import Flashcard from "./Flashcard";
 
 export default function App() {
   return (
@@ -8,7 +8,7 @@ export default function App() {
   );
 }
 
-const questions = [
+export const questions = [
   {
     id: 3457,
     question: "What language is React based on?",
@@ -41,46 +41,3 @@ const questions = [
     answer: "Controlled element",
   },
 ];
-
-function Flashcard() {
-  const [selectedId, setSelectedId] = useState({
-    id: 0,
-    answer: "",
-  });
-
-  function handleClick(data) {
-    const { id, answer } = data;
-    setSelectedId({
-      id,
-      answer,
-    });
-  }
-
-  return (
-    <div>
-      <ul className="flashcards">
-        {questions.map((card) => (
-          <Cards
-            selectedId={selectedId}
-            handleClick={handleClick}
-            cardobj={card}
-            key={card.id}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function Cards({ cardobj, selectedId, handleClick }) {
-  return (
-    <li>
-      <span
-        onClick={() => handleClick(cardobj)}
-        className={cardobj.id === selectedId.id ? "selected" : ""}
-      >
-        {cardobj.id === selectedId.id ? cardobj.answer : cardobj.question}
-      </span>
-    </li>
-  );
-}
